@@ -1,7 +1,8 @@
 package com.coinbase.exchange.api.exchange;
 
 import com.google.gson.Gson;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -26,15 +27,15 @@ import static org.springframework.http.HttpMethod.GET;
 @Component
 public class GdaxExchangeImpl implements GdaxExchange {
 
-    static Logger log = Logger.getLogger(GdaxExchangeImpl.class.getName());
+    private static Logger LOG = LoggerFactory.getLogger(GdaxExchangeImpl.class);
 
-    String publicKey;
-    String passphrase;
-    String baseUrl;
+    private String publicKey;
+    private String passphrase;
+    private String baseUrl;
 
-    Signature signature;
+    private Signature signature;
 
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
     @Autowired
     public GdaxExchangeImpl(@Value("${gdax.key}") String publicKey,
@@ -60,7 +61,7 @@ public class GdaxExchangeImpl implements GdaxExchange {
                     responseType);
             return responseEntity.getBody();
         } catch (HttpClientErrorException ex) {
-            log.error("GET request Failed for '" + resourcePath + "': " + ex.getResponseBodyAsString());
+            LOG.error("GET request Failed for '" + resourcePath + "': " + ex.getResponseBodyAsString());
         }
         return null;
     }
@@ -101,7 +102,7 @@ public class GdaxExchangeImpl implements GdaxExchange {
                 responseType);
             return response.getBody();
         } catch (HttpClientErrorException ex) {
-            log.error("DELETE request Failed for '" + resourcePath + "': " + ex.getResponseBodyAsString());
+            LOG.error("DELETE request Failed for '" + resourcePath + "': " + ex.getResponseBodyAsString());
         }
         return null;
     }
@@ -118,7 +119,7 @@ public class GdaxExchangeImpl implements GdaxExchange {
                     responseType);
             return response.getBody();
         } catch (HttpClientErrorException ex) {
-            log.error("POST request Failed for '" + resourcePath + "': " + ex.getResponseBodyAsString());
+            LOG.error("POST request Failed for '" + resourcePath + "': " + ex.getResponseBodyAsString());
         }
         return null;
     }
@@ -156,6 +157,6 @@ public class GdaxExchangeImpl implements GdaxExchange {
             curlTest += "-d '" + jsonBody + "' ";
 
         curlTest += "-X " + method + " " + getBaseUrl() + resource;
-        log.debug(curlTest);
+        LOG.debug(curlTest);
     }
 }

@@ -1,8 +1,7 @@
 package com.coinbase.exchange.api.websocketfeed;
 
 import com.coinbase.exchange.api.exchange.Signature;
-import com.coinbase.exchange.api.gui.orderbook.OrderBookView;
-import com.coinbase.exchange.api.websocketfeed.message.*;
+import com.coinbase.exchange.api.websocketfeed.message.Subscribe;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.swing.*;
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
@@ -105,86 +103,7 @@ public class WebsocketFeed {
         this.messageHandler = msgHandler;
     }
 
-    /**
-     * Send a message.
-     *
-     * @param message
-     */
-    public void sendMessage(String message) {
-        this.userSession.getAsyncRemote().sendText(message);
-    }
 
-
-    public void subscribe(Subscribe msg, OrderBookView orderBook) {
-        String jsonSubscribeMessage = signObject(msg);
-
-        addMessageHandler(json -> {
-
-            SwingWorker<Void, Void> worker = new SwingWorker<Void, Void>() {
-                @Override
-                public Void doInBackground() {
-                    OrderBookMessage message = getObject(json, new TypeReference<OrderBookMessage>() {});
-
-                    String type = message.getType();
-
-                    if (type.equals("heartbeat"))
-                    {
-                        log.info("heartbeat");
-                        orderBook.heartBeat(getObject(json, new TypeReference<HeartBeat>() {}));
-                    }
-                    else if (type.equals("received"))
-                    {
-                        // received orders are not necessarily live orders - so I'm ignoring these msgs as they're
-                        // subject to change.
-                        log.info("order received {}", json);
-
-                    }
-                    else if (type.equals("open"))
-                    {
-                        log.info("Order opened: " + json );
-                        orderBook.updateOrderBook(getObject(json, new TypeReference<OrderOpenOrderBookMessage>() {}));
-                    }
-                    else if (type.equals("done"))
-                    {
-                        log.info("Order done: " + json);
-                        if (!message.getReason().equals("filled")) {
-                            OrderBookMessage doneOrder = getObject(json, new TypeReference<OrderDoneOrderBookMessage>() {});
-                            orderBook.updateOrderBook(doneOrder);
-                        }
-                    }
-                    else if (type.equals("match"))
-                    {
-                        log.info("Order matched: " + json);
-                        OrderBookMessage matchedOrder = getObject(json, new TypeReference<OrderMatchOrderBookMessage>(){});
-                        orderBook.updateOrderBook(matchedOrder);
-                    }
-                    else if (type.equals("change"))
-                    {
-                        // TODO - possibly need to provide implementation for this to work in real time.
-                         log.info("Order Changed {}", json);
-                        // orderBook.updateOrderBookWithChange(getObject(json, new TypeReference<OrderChangeOrderBookMessage>(){}));
-                    }
-                    else
-                    {
-                        // Not sure this is required unless I'm attempting to place orders
-                        // ERROR
-                        log.error("Error {}", json);
-                        // orderBook.orderBookError(getObject(json, new TypeReference<ErrorOrderBookMessage>(){}));
-                    }
-                    return null;
-                }
-
-                public void done() {
-
-                }
-            };
-            worker.execute();
-        });
-
-        // send message to websocket
-        sendMessage(jsonSubscribeMessage);
-
-    }
 
     // TODO - get this into postHandle interceptor.
     public String signObject(Subscribe jsonObj) {
