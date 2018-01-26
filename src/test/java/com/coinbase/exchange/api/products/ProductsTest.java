@@ -2,6 +2,7 @@ package com.coinbase.exchange.api.products;
 
 import com.coinbase.exchange.api.BaseTest;
 import com.coinbase.exchange.api.entity.Product;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -14,8 +15,12 @@ import static org.junit.Assert.assertTrue;
  */
 public class ProductsTest extends BaseTest {
 
-    @Autowired
     ProductService productService;
+
+    @Before
+    public void init() {
+        this.productService = client.productService();
+    }
 
     @Test
     public void canGetProducts() {

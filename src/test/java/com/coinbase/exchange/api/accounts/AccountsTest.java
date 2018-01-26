@@ -1,7 +1,9 @@
 package com.coinbase.exchange.api.accounts;
 
 import com.coinbase.exchange.api.BaseTest;
+import com.coinbase.exchange.api.GdaxClient;
 import com.coinbase.exchange.api.entity.Hold;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,12 @@ import static org.junit.Assert.assertTrue;
  */
 public class AccountsTest extends BaseTest {
 
-    @Autowired
     AccountService accountService;
+
+    @Before
+    public void init() {
+        this.accountService = client.accountService();
+    }
 
     @Test
     public void canGetAccounts() {

@@ -13,13 +13,15 @@ import java.math.BigDecimal;
  *
  * Created by robevansuk on 15/02/2017.
  */
-@Component
 public class TransferService {
 
     static final String TRANSFER_ENDPOINT = "/transfers";
 
-    @Autowired
-    GdaxExchange gdaxExchange;
+    private GdaxExchange exchange;
+
+    public TransferService(GdaxExchange exchange) {
+        this.exchange = exchange;
+    }
 
     /**
      * TODO untested due to lack of a coinbaseaccountID to test with.
@@ -29,7 +31,7 @@ public class TransferService {
      * @return
      */
     public String transfer(String type, BigDecimal amount, String coinbaseAccountId) {
-        return gdaxExchange.post(TRANSFER_ENDPOINT,
+        return exchange.post(TRANSFER_ENDPOINT,
                 new ParameterizedTypeReference<String>(){},
                 new Transfer(type, amount, coinbaseAccountId));
     }

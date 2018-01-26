@@ -4,6 +4,7 @@ package com.coinbase.exchange.api.payments;
  * Created by robevansuk on 16/02/2017.
  */
 public class PaymentTypes {
+
     String id; // UUID
     String type; // ach_bank_account
     String name; // Bank of America - eBan... ********7134

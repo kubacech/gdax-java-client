@@ -14,13 +14,15 @@ import static java.util.stream.Collectors.toList;
 /**
  * Created by robevansuk on 07/02/2017.
  */
-@Component
 public class MarketDataService {
 
-    @Autowired
-    GdaxExchange exchange;
+    private GdaxExchange exchange;
 
     public static final String PRODUCT_ENDPOINT = "/products";
+
+    public MarketDataService(GdaxExchange exchange) {
+        this.exchange = exchange;
+    }
 
     public MarketData getMarketDataOrderBook(String productId, String level) {
         String marketDataEndpoint = PRODUCT_ENDPOINT + "/" + productId + "/book";

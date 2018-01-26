@@ -35,21 +35,18 @@ public class WebsocketFeed {
     String websocketUrl;
     String passphrase;
     String key;
-    boolean guiEnabled;
 
     @Autowired
     public WebsocketFeed(@Value("${websocket.baseUrl}") String websocketUrl,
                          @Value("${gdax.key}") String key,
                          @Value("${gdax.passphrase}") String passphrase,
-                         @Value("${gui.enabled}") boolean guiEnabled,
                          Signature signature) {
         this.key = key;
         this.passphrase = passphrase;
         this.websocketUrl = websocketUrl;
         this.signature = signature;
-        this.guiEnabled = guiEnabled;
 
-        if (guiEnabled) {
+       /* if (guiEnabled) {
             try {
                 WebSocketContainer container = ContainerProvider.getWebSocketContainer();
                 container.connectToServer(this, new URI(websocketUrl));
@@ -57,7 +54,7 @@ public class WebsocketFeed {
                 System.out.println("Could not connect to remote server: " + e.getMessage() + ", " + e.getLocalizedMessage());
                 e.printStackTrace();
             }
-        }
+        }*/
     }
 
     /**

@@ -14,15 +14,13 @@ import java.util.Base64;
 /**
  * Created by robevansuk on 17/03/2017.
  */
-@Component
 public class Signature {
 
     private String secretKey;
 
     public Signature() { }
 
-    @Autowired
-    public Signature(@Value("${gdax.secret}") String secretKey) {
+    public Signature(String secretKey) {
         this.secretKey = secretKey;
     }
 

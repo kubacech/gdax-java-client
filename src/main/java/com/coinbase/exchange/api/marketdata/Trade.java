@@ -7,6 +7,7 @@ import java.time.Instant;
  * Created by robevansuk on 12/03/2017.
  */
 public class Trade {
+
     Instant time;
     Long trade_id;
     BigDecimal price;

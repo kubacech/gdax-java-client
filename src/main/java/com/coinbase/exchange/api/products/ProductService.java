@@ -11,13 +11,15 @@ import java.util.List;
 /**
  * Created by robevansuk on 03/02/2017.
  */
-@Component
 public class ProductService {
 
-    @Autowired
-    GdaxExchange exchange;
+    private GdaxExchange exchange;
 
     public static final String PRODUCTS_ENDPOINT = "/products";
+
+    public ProductService(GdaxExchange exchange) {
+        this.exchange = exchange;
+    }
 
     // no paged products necessary
     public List<Product> getProducts() {

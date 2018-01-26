@@ -4,6 +4,7 @@ package com.coinbase.exchange.api.orders;
  * Created by robevansuk on 03/02/2017.
  */
 public class Order {
+
     String id;
     String size;
     String price;

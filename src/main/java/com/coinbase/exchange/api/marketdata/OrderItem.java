@@ -18,7 +18,6 @@ public class OrderItem implements Comparable {
     private String orderId;
     private BigDecimal num;
 
-
     @JsonCreator
     public OrderItem(List<String> limitOrders) {
         if (CollectionUtils.isEmpty(limitOrders) || limitOrders.size() < 3) {

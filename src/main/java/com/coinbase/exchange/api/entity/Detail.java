@@ -4,6 +4,7 @@ package com.coinbase.exchange.api.entity;
  * Created by irufus on 2/25/15.
  */
 public class Detail {
+
     private String order_id;
     private Integer trade_id;
     private String product_id;

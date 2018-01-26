@@ -16,13 +16,15 @@ import static java.util.stream.Collectors.toList;
 /**
  * Created by robevansuk on 03/02/2017.
  */
-@Component
 public class OrderService {
 
-    @Autowired
-    GdaxExchange exchange;
+    private GdaxExchange exchange;
 
     public static final String ORDERS_ENDPOINT = "/orders";
+
+    public OrderService(GdaxExchange exchange) {
+        this.exchange = exchange;
+    }
 
     public List<Hold> getHolds(String accountId) {
         return exchange.getAsList(ORDERS_ENDPOINT + "/" + accountId + "/holds", new ParameterizedTypeReference<Hold[]>(){});

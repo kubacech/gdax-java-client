@@ -9,6 +9,7 @@ import com.coinbase.exchange.api.entity.NewMarketOrderSingle;
 import com.coinbase.exchange.api.marketdata.MarketData;
 import com.coinbase.exchange.api.marketdata.MarketDataService;
 import com.coinbase.exchange.api.products.ProductService;
+import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,17 +29,18 @@ public class OrderTests extends BaseTest {
 
     private static final Logger log = LoggerFactory.getLogger(OrderTests.class);
 
-    @Autowired
     ProductService productService;
-
-    @Autowired
     AccountService accountService;
-
-    @Autowired
     MarketDataService marketDataService;
-
-    @Autowired
     OrderService orderService;
+
+    @Before
+    public void init() {
+        this.productService = client.productService();
+        this.accountService = client.accountService();
+        this.marketDataService = client.marketDataService();
+        this.orderService = client.orderService();
+    }
 
     // accounts: BTC, USD, GBP, EUR, CAD
     // products: BTC-USD, BTC-GBP, BTC-EUR, ETH-BTC, ETH-USD, LTC-BTC, LTC-USD

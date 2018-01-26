@@ -3,6 +3,7 @@ package com.coinbase.exchange.api.MarketData;
 import com.coinbase.exchange.api.BaseTest;
 import com.coinbase.exchange.api.marketdata.MarketData;
 import com.coinbase.exchange.api.marketdata.MarketDataService;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -13,8 +14,12 @@ import static org.junit.Assert.assertTrue;
  */
 public class MarketDataTest extends BaseTest {
 
-    @Autowired
     MarketDataService marketDataService;
+
+    @Before
+    public void init() {
+        this.marketDataService = client.marketDataService();
+    }
 
     @Test
     public void canGetMarketDataForLevelOneBidAndAsk() {

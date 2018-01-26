@@ -6,6 +6,7 @@ import java.math.BigDecimal;
  * Created by irufus on 2/18/15.
  */
 public class Fill {
+
     private Integer trade_id;
     private String product_id;
     private BigDecimal size;

@@ -6,6 +6,7 @@ import java.math.BigDecimal;
  * Created by irufus on 7/31/15.
  */
 public class NewLimitOrderSingle extends NewOrderSingle {
+
     private BigDecimal size;
     private BigDecimal price;
     private Boolean post_only;

@@ -1,26 +1,26 @@
 package com.coinbase.exchange.api.deposits;
 
-import com.coinbase.exchange.api.exchange.GdaxExchange;
 import com.coinbase.exchange.api.entity.CoinbasePaymentRequest;
 import com.coinbase.exchange.api.entity.PaymentResponse;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.coinbase.exchange.api.exchange.GdaxExchange;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
 /**
  * Created by robevansuk on 16/02/2017.
  */
-@Component
 public class DepositService {
 
-    static final String DEPOSIT_ENDPOINT = "/deposits";
-    static final String PAYMENTS = "/payment-method";
-    static final String COINBASE_PAYMENT = "/coinbase-account";
+    private static final String DEPOSIT_ENDPOINT = "/deposits";
+    private static final String PAYMENTS = "/payment-method";
+    private static final String COINBASE_PAYMENT = "/coinbase-account";
 
-    @Autowired
-    GdaxExchange exchange;
+    private GdaxExchange exchange;
+
+    public DepositService(GdaxExchange exchange) {
+        this.exchange = exchange;
+    }
 
     /**
      * can't realistically test this but it should work as is.

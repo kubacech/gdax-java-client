@@ -6,6 +6,7 @@ import java.math.BigDecimal;
  * Created by irufus on 2/28/15.
  */
 public class Message {
+
     private String type;
     private Long sequence;
     private String order_id;

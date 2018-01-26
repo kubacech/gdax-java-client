@@ -12,17 +12,18 @@ import java.math.BigDecimal;
 /**
  * Created by robevansuk on 16/02/2017.
  */
-@Component
 public class WithdrawalsService {
 
-    static final String WITHDRAWALS_ENDPOINT = "/withdrawals";
-    static final String PAYMENT_METHOD = "/payment-method";
-    static final String COINBASE = "/coinbase";
-    static final String CRYPTO = "/crypto";
+    private static final String WITHDRAWALS_ENDPOINT = "/withdrawals";
+    private static final String PAYMENT_METHOD = "/payment-method";
+    private static final String COINBASE = "/coinbase";
+    private static final String CRYPTO = "/crypto";
 
+    private GdaxExchange exchange;
 
-    @Autowired
-    GdaxExchange gdaxExchange;
+    public WithdrawalsService(GdaxExchange exchange) {
+        this.exchange = exchange;
+    }
 
     // TODO untested - needs a payment method id.
     public PaymentResponse makeWithdrawalToPaymentMethod(BigDecimal amount, String currency, String paymentMethodId) {
@@ -44,7 +45,7 @@ public class WithdrawalsService {
                                            String cryptoAccount,
                                            String withdrawalType) {
         PaymentRequest withdrawalRequest = new PaymentRequest(amount, currency, cryptoAccount);
-        return gdaxExchange.post(WITHDRAWALS_ENDPOINT+ withdrawalType,
+        return exchange.post(WITHDRAWALS_ENDPOINT+ withdrawalType,
                 new ParameterizedTypeReference<PaymentResponse>() {},
                 withdrawalRequest);
     }

@@ -8,15 +8,17 @@ import org.springframework.stereotype.Component;
 /**
  * Created by robevansuk on 17/02/2017.
  */
-@Component
 public class UserAccountService {
 
     static final String USER_ACCOUNT_ENDPOINT = "/users/self/trailing-volume";
 
-    @Autowired
-    GdaxExchange gdaxExchange;
+    private GdaxExchange exchange;
+
+    public UserAccountService(GdaxExchange exchange) {
+        this.exchange = exchange;
+    }
 
     public UserAccountData getUserAccounts(){
-        return gdaxExchange.get(USER_ACCOUNT_ENDPOINT, new ParameterizedTypeReference<UserAccountData>() {});
+        return exchange.get(USER_ACCOUNT_ENDPOINT, new ParameterizedTypeReference<UserAccountData>() {});
     }
 }

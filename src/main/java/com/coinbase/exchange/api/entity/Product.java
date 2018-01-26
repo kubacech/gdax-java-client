@@ -6,6 +6,7 @@ import java.math.BigDecimal;
  * Created by irufus on 2/25/15.
  */
 public class Product {
+
     private String id;
     private String base_currency;
     private String quote_currency;
