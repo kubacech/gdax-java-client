@@ -7,6 +7,7 @@ import com.coinbase.exchange.api.exchange.GdaxExchange;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,36 +27,37 @@ public class OrderService {
         this.exchange = exchange;
     }
 
-    public List<Hold> getHolds(String accountId) {
+    public Mono<List<Hold>> getHolds(String accountId) {
         return exchange.getAsList(ORDERS_ENDPOINT + "/" + accountId + "/holds", new ParameterizedTypeReference<Hold[]>(){});
     }
 
-    public List<Order> getOpenOrders(String accountId) {
+    public Mono<List<Order>> getOpenOrders(String accountId) {
         return exchange.getAsList(ORDERS_ENDPOINT + "/" + accountId + "/orders", new ParameterizedTypeReference<Order[]>(){});
     }
 
-    public Order getOrder(String orderId) {
+    public Mono<Order> getOrder(String orderId) {
         return exchange.get(ORDERS_ENDPOINT + "/" + orderId,new ParameterizedTypeReference<Order>(){});
     }
 
-    public Order createOrder(NewOrderSingle order) {
+    public Mono<Order> createOrder(NewOrderSingle order) {
         return exchange.post(ORDERS_ENDPOINT, new ParameterizedTypeReference<Order>(){}, order);
     }
 
-    public String cancelOrder(String orderId) {
+    public Mono<String> cancelOrder(String orderId) {
         String deleteEndpoint = ORDERS_ENDPOINT + "/" + orderId;
         return exchange.delete(deleteEndpoint, new ParameterizedTypeReference<String>(){});
     }
 
-    public List<Order> getOpenOrders() {
+    public Mono<List<Order>> getOpenOrders() {
         return exchange.getAsList(ORDERS_ENDPOINT, new ParameterizedTypeReference<Order[]>(){});
     }
 
-    public List<Order> cancelAllOpenOrders() {
-        return Arrays.asList(exchange.delete(ORDERS_ENDPOINT, new ParameterizedTypeReference<Order[]>(){}));
+    public Mono<List<Order>> cancelAllOpenOrders() {
+        return exchange.delete(ORDERS_ENDPOINT, new ParameterizedTypeReference<Order[]>(){})
+                .map(Arrays::asList);
     }
 
-    public List<Fill> getAllFills() {
+    public Mono<List<Fill>> getAllFills() {
         String fillsEndpoint = "/fills";
         return exchange.getAsList(fillsEndpoint, new ParameterizedTypeReference<Fill[]>(){});
     }

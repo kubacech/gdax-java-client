@@ -12,8 +12,8 @@ import com.coinbase.exchange.api.products.ProductService;
 import com.coinbase.exchange.api.reports.ReportService;
 import com.coinbase.exchange.api.transfers.TransferService;
 import com.coinbase.exchange.api.useraccount.UserAccountService;
+import com.coinbase.exchange.api.websocketfeed.WebsocketFeed;
 import com.coinbase.exchange.api.withdrawals.WithdrawalsService;
-import org.springframework.web.client.RestTemplate;
 
 public class GdaxClient {
 
@@ -30,6 +30,7 @@ public class GdaxClient {
     private TransferService transferService;
     private UserAccountService userAccountService;
     private WithdrawalsService withdrawalsService;
+    private WebsocketFeed websocketFeed;
 
     public GdaxClient() {
         this(new GdaxConfiguration());
@@ -41,7 +42,7 @@ public class GdaxClient {
 
     public GdaxClient(GdaxConfiguration config) {
         this.config = config;
-        this.exchange = new GdaxExchangeImpl(config.key(), config.passphrase(), config.baseUrl(), config.signature(), new RestTemplate());
+        this.exchange = new GdaxExchangeImpl(config.key(), config.passphrase(), config.baseUrl(), config.signature());
         createServices();
     }
 
@@ -56,6 +57,7 @@ public class GdaxClient {
         this.transferService =  new TransferService(exchange);
         this.userAccountService =  new UserAccountService(exchange);
         this.withdrawalsService =  new WithdrawalsService(exchange);
+        this.websocketFeed = new WebsocketFeed(config);
     }
 
     public AccountService accountService() {
@@ -96,5 +98,9 @@ public class GdaxClient {
 
     public WithdrawalsService withdrawalsService() {
         return withdrawalsService;
+    }
+
+    public WebsocketFeed websocketFeed() {
+        return websocketFeed;
     }
 }

@@ -22,13 +22,13 @@ public class AuthenticationTests extends BaseTest {
 
     @Before
     public void init() {
-        this.accountService = client.accountService();
+        this.accountService = gdax.accountService();
     }
 
     // ensure a basic request can be made. Not a great test. Improve.
     @Test
     public void simpleAuthenticationTest(){
-        List<Account> accounts = accountService.getAccounts();
+        List<Account> accounts = accountService.getAccounts().block();
         assertTrue(accounts != null);
         assertTrue(accounts.size() > 0);
     }

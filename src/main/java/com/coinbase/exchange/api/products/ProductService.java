@@ -2,9 +2,8 @@ package com.coinbase.exchange.api.products;
 
 import com.coinbase.exchange.api.entity.Product;
 import com.coinbase.exchange.api.exchange.GdaxExchange;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -22,7 +21,7 @@ public class ProductService {
     }
 
     // no paged products necessary
-    public List<Product> getProducts() {
+    public Mono<List<Product>> getProducts() {
         return exchange.getAsList(PRODUCTS_ENDPOINT, new ParameterizedTypeReference<Product[]>(){});
     }
 }

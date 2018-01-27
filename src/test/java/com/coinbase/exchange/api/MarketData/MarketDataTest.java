@@ -18,19 +18,19 @@ public class MarketDataTest extends BaseTest {
 
     @Before
     public void init() {
-        this.marketDataService = client.marketDataService();
+        this.marketDataService = gdax.marketDataService();
     }
 
     @Test
     public void canGetMarketDataForLevelOneBidAndAsk() {
-        MarketData marketData = marketDataService.getMarketDataOrderBook("BTC-GBP", "1");
+        MarketData marketData = marketDataService.getMarketDataOrderBook("BTC-GBP", "1").block();
         System.out.println(marketData);
         assertTrue(marketData.getSequence() > 0);
     }
 
     @Test
     public void canGetMarketDataForLevelTwoBidAndAsk() {
-        MarketData marketData = marketDataService.getMarketDataOrderBook("BTC-GBP", "2");
+        MarketData marketData = marketDataService.getMarketDataOrderBook("BTC-GBP", "2").block();
         System.out.println(marketData);
         assertTrue(marketData.getSequence() > 0);
     }
@@ -41,7 +41,7 @@ public class MarketDataTest extends BaseTest {
      */
     @Test
     public void canGetMarketDataForLevelThreeBidAndAsk() {
-        MarketData marketData = marketDataService.getMarketDataOrderBook("BTC-GBP", "3");
+        MarketData marketData = marketDataService.getMarketDataOrderBook("BTC-GBP", "3").block();
         System.out.println(marketData);
         assertTrue(marketData.getSequence() > 0);
     }

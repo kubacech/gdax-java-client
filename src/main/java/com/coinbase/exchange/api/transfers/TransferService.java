@@ -1,9 +1,8 @@
 package com.coinbase.exchange.api.transfers;
 
 import com.coinbase.exchange.api.exchange.GdaxExchange;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
 
@@ -30,7 +29,7 @@ public class TransferService {
      * @param coinbaseAccountId
      * @return
      */
-    public String transfer(String type, BigDecimal amount, String coinbaseAccountId) {
+    public Mono<String> transfer(String type, BigDecimal amount, String coinbaseAccountId) {
         return exchange.post(TRANSFER_ENDPOINT,
                 new ParameterizedTypeReference<String>(){},
                 new Transfer(type, amount, coinbaseAccountId));

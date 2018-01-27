@@ -2,6 +2,9 @@ package com.coinbase.exchange.api.config;
 
 import com.coinbase.exchange.api.exchange.Signature;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 public class GdaxConfiguration {
 
     private static final String DEFAULT_BASE_URL = "https://api.gdax.com/";
@@ -41,6 +44,14 @@ public class GdaxConfiguration {
 
     public String websocketUrl() {
         return websocketUrl;
+    }
+
+    public URI websocketUri() {
+        try {
+            return new URI(websocketUrl);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public String key() {

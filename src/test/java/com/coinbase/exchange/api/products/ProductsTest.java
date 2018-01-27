@@ -4,7 +4,6 @@ import com.coinbase.exchange.api.BaseTest;
 import com.coinbase.exchange.api.entity.Product;
 import org.junit.Before;
 import org.junit.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -19,12 +18,12 @@ public class ProductsTest extends BaseTest {
 
     @Before
     public void init() {
-        this.productService = client.productService();
+        this.productService = gdax.productService();
     }
 
     @Test
     public void canGetProducts() {
-        List<Product> products = productService.getProducts();
+        List<Product> products = productService.getProducts().block();
         assertTrue(products.size() >= 0);
     }
 }

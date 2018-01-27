@@ -1,3 +1,6 @@
+** This project is currently under heavy development and very probably not functional. 
+If you want to use this, then please fork it and make it work for you as desired. **
+
 # gdax-java-client
 
 Java based wrapper for the [GDAX API](https://docs.gdax.com/#introduction) that follows the development style similar to [coinbase-java](https://github.com/coinbase/coinbase-java). Originally forked from [irufus/gdax-java](https://github.com/irufus/gdax-java). 
@@ -20,7 +23,7 @@ Or setup environment properties **GDAX_KEY**, **GDAX_SECRET**, **GDAX_PASS** and
 with created client object you can now access all services as this:
 
 ```java
-client.orderService().createOrder(neworder);
+gdax.orderService().createOrder(neworder);
 ```
 ##### List of services:
 -  AccountService
@@ -57,36 +60,13 @@ The Api for this application/library is as follows:
 
 # WebsocketFeed API 
 ---------------------
-//TODO
+//TODO rewritten completely . not tested at all at this moment
  
-# Functions supported:
+# Functions tested by this fork:
 - [x] Authentication (GET, POST, DELETE supported)
 - [x] Get Account
 - [x] Get Accounts
 - [x] Get Account History
-- [x] Get Holds
-- [x] Place a new Order (limit order)
-- [x] Get an Order
-- [x] Cancel an Order
-- [x] List all open Orders
-- [x] Get Market Data
-- [x] List fills
-- [x] List Products
-- [x] HTTP Error code support
-- [x] List of Currencies - from Accounts
-- [x] Withdrawals - from coinbase accounts / payment methods / crypto account address
-- [x] Deposits - from coinbase accounts / payment methods
-- [x] Transfers - from coinbase accounts
-- [x] Payment methods - coinbase / payment methods
-- [x] Reports
-- [x] Pagination support for all calls that support it.
-- [x] Pagination support for all calls that support it.
-
-# Functions tested by this fork:
-- [ ] Authentication (GET, POST, DELETE supported)
-- [ ] Get Account
-- [ ] Get Accounts
-- [ ] Get Account History
 - [ ] Get Holds
 - [ ] Place a new Order (limit order)
 - [ ] Get an Order
@@ -102,5 +82,4 @@ The Api for this application/library is as follows:
 - [ ] Transfers - from coinbase accounts
 - [ ] Payment methods - coinbase / payment methods
 - [ ] Reports
-- [ ] Pagination support for all calls that support it.
 - [ ] Pagination support for all calls that support it.

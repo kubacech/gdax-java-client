@@ -36,10 +36,10 @@ public class OrderTests extends BaseTest {
 
     @Before
     public void init() {
-        this.productService = client.productService();
-        this.accountService = client.accountService();
-        this.marketDataService = client.marketDataService();
-        this.orderService = client.orderService();
+        this.productService = gdax.productService();
+        this.accountService = gdax.accountService();
+        this.marketDataService = gdax.marketDataService();
+        this.orderService = gdax.orderService();
     }
 
     // accounts: BTC, USD, GBP, EUR, CAD
@@ -52,7 +52,7 @@ public class OrderTests extends BaseTest {
      */
     @Test
     public void canMakeLimitOrderAndGetTheOrderAndCancelIt() {
-        List<Account> accounts = accountService.getAccounts();
+        List<Account> accounts = accountService.getAccounts().block();
         Optional<Account> accountsWithMoreThanZeroCoinsAvailable = accounts.stream()
                 .filter(account -> account.getBalance().compareTo(BigDecimal.ONE) > 0)
                 .findFirst();
@@ -75,7 +75,7 @@ public class OrderTests extends BaseTest {
 
         NewLimitOrderSingle limitOrder = getNewLimitOrderSingle(productId, price, size);
 
-        Order order = orderService.createOrder(limitOrder);
+        Order order = orderService.createOrder(limitOrder).block();
 
         assertTrue(order != null);
         assertEquals(productId, order.getProduct_id());
@@ -84,36 +84,37 @@ public class OrderTests extends BaseTest {
         assertEquals("limit", order.getType());
 
         orderService.cancelOrder(order.getId());
-        List<Order> orders = orderService.getOpenOrders();
+        List<Order> orders = orderService.getOpenOrders().block();
         orders.stream().forEach(o -> assertTrue(o.getId() != order.getId()));
     }
 
     @Test
     public void cancelAllOrders() {
-        List<Order> cancelledOrders = orderService.cancelAllOpenOrders();
+        List<Order> cancelledOrders = orderService.cancelAllOpenOrders().block();
         assertTrue(cancelledOrders.size() >=0);
     }
 
     @Test
     public void getAllOpenOrders() {
-        List<Order> openOrders = orderService.getOpenOrders();
+        List<Order> openOrders = orderService.getOpenOrders().block();
         assertTrue(openOrders.size() >= 0);
     }
 
     @Test
     public void getFills() {
-        List<Fill> fills = orderService.getAllFills();
+        List<Fill> fills = orderService.getAllFills().block();
         assertTrue(fills.size() >= 0);
     }
+
     @Test
     public void createMarketOrderBuy(){
         NewMarketOrderSingle marketOrder = createNewMarketOrder("BTC-USD", "buy", new BigDecimal(0.01));
-        Order order = orderService.createOrder(marketOrder);
+        Order order = orderService.createOrder(marketOrder).block();
 
         assertTrue(order != null); //make sure we created an order
         String orderId = order.getId();
         assertTrue(orderId.length() > 0); //ensure we have an actual orderId
-        Order filledOrder = orderService.getOrder(orderId);
+        Order filledOrder = orderService.getOrder(orderId).block();
         assertTrue(filledOrder != null); //ensure our order hit the system
         assertTrue(new BigDecimal(filledOrder.getSize()).compareTo(BigDecimal.ZERO) > 0); //ensure we got a fill
         log.info("Order opened and filled: " + filledOrder.getSize() + " @ " + filledOrder.getExecuted_value()
@@ -122,11 +123,11 @@ public class OrderTests extends BaseTest {
    @Test
    public void createMarketOrderSell(){
        NewMarketOrderSingle marketOrder = createNewMarketOrder("BTC-USD", "sell", new BigDecimal(0.01));
-       Order order = orderService.createOrder(marketOrder);
+       Order order = orderService.createOrder(marketOrder).block();
        assertTrue(order != null); //make sure we created an order
        String orderId = order.getId();
        assertTrue(orderId.length() > 0); //ensure we have an actual orderId
-       Order filledOrder = orderService.getOrder(orderId);
+       Order filledOrder = orderService.getOrder(orderId).block();
        assertTrue(filledOrder != null); //ensure our order hit the system
        assertTrue(new BigDecimal(filledOrder.getSize()).compareTo(BigDecimal.ZERO) > 0); //ensure we got a fill
        log.info("Order opened and filled: " + filledOrder.getSize() + " @ " + filledOrder.getExecuted_value()
@@ -141,7 +142,7 @@ public class OrderTests extends BaseTest {
     }
 
     private MarketData getMarketDataOrderBook(String product) {
-        return marketDataService.getMarketDataOrderBook(product, "1");
+        return marketDataService.getMarketDataOrderBook(product, "1").block();
     }
 
     private NewLimitOrderSingle getNewLimitOrderSingle(String productId, BigDecimal price, BigDecimal size) {

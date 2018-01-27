@@ -7,8 +7,8 @@ import java.math.BigDecimal;
  * so the relevant parts can be determined and the messages typed.
  * Created by robevansuk on 15/03/2017.
  */
-public class OrderBookMessage implements Comparable {
-    String type;
+public class OrderBookMessage extends Message implements Comparable {
+
     String time;
     String product_id;
     String trade_id;
@@ -97,14 +97,6 @@ public class OrderBookMessage implements Comparable {
 
     public void setStp(String stp) {
         this.stp = stp;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getTime() {
