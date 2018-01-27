@@ -9,9 +9,7 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by robevansuk on 08/02/2017.
- */
+
 public class ProductsTest extends BaseTest {
 
     ProductService productService;

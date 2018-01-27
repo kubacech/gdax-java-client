@@ -1,9 +1,9 @@
-** This project is currently under heavy development and very probably not functional. 
-If you want to use this, then please fork it and make it work for you as desired. **
+**This project is currently under heavy development and very probably not functional. 
+If you want to use this, then please fork it and make it work for you as desired.**
 
 # gdax-java-client
 
-Java based wrapper for the [GDAX API](https://docs.gdax.com/#introduction) that follows the development style similar to [coinbase-java](https://github.com/coinbase/coinbase-java). Originally forked from [irufus/gdax-java](https://github.com/irufus/gdax-java). 
+Java based wrapper for the [GDAX API](https://docs.gdax.com/#introduction). Originally forked from [irufus/gdax-java](https://github.com/irufus/gdax-java). 
 This project aims to simple java library that is wrapping GDAX API without any Spring or UI
     
 # Usage
@@ -72,9 +72,9 @@ The Api for this application/library is as follows:
 - [ ] Get an Order
 - [ ] Cancel an Order
 - [ ] List all open Orders
-- [ ] Get Market Data
+- [x] Get Market Data
 - [ ] List fills
-- [ ] List Products
+- [x] List Products
 - [ ] HTTP Error code support
 - [ ] List of Currencies - from Accounts
 - [ ] Withdrawals - from coinbase accounts / payment methods / crypto account address
