@@ -4,18 +4,17 @@ import com.coinbase.exchange.api.BaseTest;
 import com.coinbase.exchange.api.GdaxClient;
 import com.coinbase.exchange.api.accounts.Account;
 import com.coinbase.exchange.api.accounts.AccountService;
+import com.coinbase.exchange.api.test.IntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
 
-/**
- * Created by irufus (sakamura@gmail.com)
- * @Description The primary function of this class is to run through basic tests for the Authentication and GdaxExchange classes
- */
+@Category(IntegrationTest.class)
 public class AuthenticationTests extends BaseTest {
 
     AccountService accountService;

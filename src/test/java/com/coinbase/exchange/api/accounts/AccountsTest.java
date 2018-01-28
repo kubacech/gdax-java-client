@@ -3,9 +3,11 @@ package com.coinbase.exchange.api.accounts;
 import com.coinbase.exchange.api.BaseTest;
 import com.coinbase.exchange.api.GdaxClient;
 import com.coinbase.exchange.api.entity.Hold;
+import com.coinbase.exchange.api.test.IntegrationTest;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import reactor.core.publisher.Mono;
 
@@ -15,9 +17,7 @@ import java.util.List;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by robevansuk on 03/02/2017.
- */
+@Category(IntegrationTest.class)
 public class AccountsTest extends BaseTest {
 
     AccountService accountService;

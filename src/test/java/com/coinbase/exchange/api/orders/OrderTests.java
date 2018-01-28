@@ -9,8 +9,10 @@ import com.coinbase.exchange.api.entity.NewMarketOrderSingle;
 import com.coinbase.exchange.api.marketdata.MarketData;
 import com.coinbase.exchange.api.marketdata.MarketDataService;
 import com.coinbase.exchange.api.products.ProductService;
+import com.coinbase.exchange.api.test.IntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +24,7 @@ import java.util.Optional;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by Ishmael (sakamura@gmail.com) on 6/18/2016.
- */
+@Category(IntegrationTest.class)
 public class OrderTests extends BaseTest {
 
     private static final Logger log = LoggerFactory.getLogger(OrderTests.class);

@@ -3,15 +3,15 @@ package com.coinbase.exchange.api.MarketData;
 import com.coinbase.exchange.api.BaseTest;
 import com.coinbase.exchange.api.marketdata.MarketData;
 import com.coinbase.exchange.api.marketdata.MarketDataService;
+import com.coinbase.exchange.api.test.IntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.experimental.categories.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.junit.Assert.assertTrue;
 
-/**
- * Created by robevansuk on 14/02/2017.
- */
+@Category(IntegrationTest.class)
 public class MarketDataTest extends BaseTest {
 
     MarketDataService marketDataService;

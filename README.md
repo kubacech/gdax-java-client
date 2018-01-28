@@ -7,7 +7,6 @@ Java based wrapper for the [GDAX API](https://docs.gdax.com/#introduction). Orig
 This project aims to simple java library that is wrapping GDAX API without any Spring or UI
     
 # Usage
---------
 
 ### Create GdaxClient
 To access all API methods firstly create `GdaxClient` instance. This needs three parameters from you: 
@@ -38,7 +37,6 @@ gdax.orderService().createOrder(neworder);
 -  WithdrawalsService
 
 # API
---------
 
 The Api for this application/library is as follows:
 (Note: this section is likely to change but is provided on the basis it will work well for example usage)
@@ -59,7 +57,6 @@ The Api for this application/library is as follows:
 
 
 # WebsocketFeed API 
----------------------
 //TODO rewritten completely . not tested at all at this moment
  
 # Functions tested by this fork:
