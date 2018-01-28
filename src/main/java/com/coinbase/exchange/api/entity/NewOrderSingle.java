@@ -9,7 +9,10 @@ public abstract class NewOrderSingle {
     private String type; //default is limit, other types are market and stop
     private String side;
     private String product_id;
-    private String stp; //optional: values are dc, co , cn , cb
+
+    //SELF-TRADE PREVENTION
+    //optional: values are dc, co , cn , cb
+    private String stp;
     private String funds;
 
     public String getStp() {

@@ -16,6 +16,7 @@ public class Fill {
     private BigDecimal fee;
     private Boolean settled;
     private String side;
+    private BigDecimal price;
 
     public String getSide() {
         return side;
@@ -87,5 +88,13 @@ public class Fill {
 
     public void setTrade_id(Integer trade_id) {
         this.trade_id = trade_id;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

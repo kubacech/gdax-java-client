@@ -9,6 +9,9 @@ public class NewLimitOrderSingle extends NewOrderSingle {
 
     private BigDecimal size;
     private BigDecimal price;
+
+    //The post-only flag indicates that the order should only make liquidity.
+    // If any part of the order results in taking liquidity, the order will be rejected and no part of it will execute.
     private Boolean post_only;
 
     public NewLimitOrderSingle() {}

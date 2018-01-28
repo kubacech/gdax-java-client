@@ -17,9 +17,7 @@ public class GdaxConfiguration {
     private String passphrase;
 
     public GdaxConfiguration() {
-        this.key = System.getenv("GDAX_KEY");
-        this.secret = System.getenv("GDAX_SECRET");
-        this.passphrase = System.getenv("GDAX_PASS");
+        this(System.getenv("GDAX_KEY"), System.getenv("GDAX_SECRET"), System.getenv("GDAX_PASS"));
     }
 
     public GdaxConfiguration(String key, String secret, String passphrase) {
