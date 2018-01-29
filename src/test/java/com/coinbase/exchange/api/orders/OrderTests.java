@@ -20,8 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @Category(IntegrationTest.class)
@@ -107,6 +109,12 @@ public class OrderTests extends BaseTest {
     }
 
     @Test
+    public void getOrder() {
+        Order o = orderService.getOrder("47a8ee22-c9e3-41df-9406-59b7683980d2").block();
+        assertNotNull(o);
+    }
+
+    @Test
     public void createMarketOrderBuy(){
         NewMarketOrderSingle marketOrder = createNewMarketOrder("BTC-USD", "buy", new BigDecimal(0.01));
         Order order = orderService.createOrder(marketOrder).block();
@@ -119,9 +127,10 @@ public class OrderTests extends BaseTest {
         assertTrue(new BigDecimal(filledOrder.getSize()).compareTo(BigDecimal.ZERO) > 0); //ensure we got a fill
         log.info("Order opened and filled: " + filledOrder.getSize() + " @ " + filledOrder.getExecuted_value()
              + " at the cost of " + filledOrder.getFill_fees());
-   }
-   @Test
-   public void createMarketOrderSell(){
+    }
+
+    @Test
+    public void createMarketOrderSell(){
        NewMarketOrderSingle marketOrder = createNewMarketOrder("BTC-USD", "sell", new BigDecimal(0.01));
        Order order = orderService.createOrder(marketOrder).block();
        assertTrue(order != null); //make sure we created an order
@@ -132,7 +141,25 @@ public class OrderTests extends BaseTest {
        assertTrue(new BigDecimal(filledOrder.getSize()).compareTo(BigDecimal.ZERO) > 0); //ensure we got a fill
        log.info("Order opened and filled: " + filledOrder.getSize() + " @ " + filledOrder.getExecuted_value()
                + " at the cost of " + filledOrder.getFill_fees());
-   }
+    }
+
+    @Test
+    public void placeLimitOrder() {
+        NewLimitOrderSingle req = new NewLimitOrderSingle(
+                new BigDecimal("0.01"),
+                new BigDecimal("25000"),
+                true,
+                UUID.randomUUID().toString(),
+                "limit",
+                "SELL",
+                "BTC-EUR",
+                null,
+                null
+        );
+        Order o = orderService.createOrder(req).block();
+        assertNotNull(o);
+    }
+
     private NewMarketOrderSingle createNewMarketOrder(String product, String action, BigDecimal size){
         NewMarketOrderSingle marketOrder = new NewMarketOrderSingle();
         marketOrder.setProduct_id(product);
