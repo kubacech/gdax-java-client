@@ -2,12 +2,11 @@ package com.coinbase.exchange.api.entity;
 
 import java.math.BigDecimal;
 
-/**
- * Created by irufus on 7/31/15.
- */
+
 public class NewMarketOrderSingle extends NewOrderSingle {
 
     private BigDecimal size; //optional: Desired amount in BTC
+    private String funds;
 
     public NewMarketOrderSingle(){
         setType("market");
@@ -21,4 +20,11 @@ public class NewMarketOrderSingle extends NewOrderSingle {
         this.size = size;
     }
 
+    public String getFunds() {
+        return funds;
+    }
+
+    public void setFunds(String funds) {
+        this.funds = funds;
+    }
 }

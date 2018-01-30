@@ -1,10 +1,11 @@
 package com.coinbase.exchange.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
-/**
- * Created by irufus on 7/31/15.
- */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class NewLimitOrderSingle extends NewOrderSingle {
 
     private BigDecimal size;
@@ -12,40 +13,41 @@ public class NewLimitOrderSingle extends NewOrderSingle {
 
     //The post-only flag indicates that the order should only make liquidity.
     // If any part of the order results in taking liquidity, the order will be rejected and no part of it will execute.
-    private Boolean post_only;
+    @JsonProperty("post_only")
+    private Boolean postOnly;
+
+    /**
+     * GTC Good till canceled
+     * GTT Good till time
+     * IOC Immediate or cancel
+     * FOK Fill or kill orders are rejected if the entire size cannot be matched.
+     */
+    //[optional] GTC, GTT, IOC, or FOK (default is GTC)
+    @JsonProperty("time_in_force")
+    private String timeInForce;
+
+    //[optional]* min, hour, day ; time in force must be GTT
+    @JsonProperty("cancel_after")
+    private String cancelAfter;
 
     public NewLimitOrderSingle() {}
 
-    public NewLimitOrderSingle(BigDecimal size, BigDecimal price, Boolean post_only) {
+    public NewLimitOrderSingle(String clientOid, String side, String productId, String stp,
+                               BigDecimal size, BigDecimal price, Boolean postOnly, String timeInForce, String cancelAfter) {
+        super(clientOid, "limit", side, productId, stp);
         this.size = size;
         this.price = price;
-        this.post_only = post_only;
+        this.postOnly = postOnly;
+        this.timeInForce = timeInForce;
+        this.cancelAfter = cancelAfter;
     }
 
-    public NewLimitOrderSingle(BigDecimal size, BigDecimal price, Boolean post_only,
-                               String clientOid,
-                               String type,
-                               String side,
-                               String product_id,
-                               String stp,
-                               String funds) {
-        this.size = size;
-        this.price = price;
-        this.post_only = post_only;
-        setClient_oid(clientOid);
-        setType(type);
-        setSide(side);
-        setProduct_id(product_id);
-        setStp(stp);
-        setFunds(funds);
+    public Boolean getPostOnly() {
+        return postOnly;
     }
 
-    public Boolean getPost_only() {
-        return post_only;
-    }
-
-    public void setPost_only(Boolean post_only) {
-        this.post_only = post_only;
+    public void setPostOnly(Boolean postOnly) {
+        this.postOnly = postOnly;
     }
 
     public BigDecimal getPrice() {
@@ -62,5 +64,21 @@ public class NewLimitOrderSingle extends NewOrderSingle {
 
     public void setSize(BigDecimal size) {
         this.size = size;
+    }
+
+    public String getTimeInForce() {
+        return timeInForce;
+    }
+
+    public void setTimeInForce(String timeInForce) {
+        this.timeInForce = timeInForce;
+    }
+
+    public String getCancelAfter() {
+        return cancelAfter;
+    }
+
+    public void setCancelAfter(String cancelAfter) {
+        this.cancelAfter = cancelAfter;
     }
 }

@@ -1,19 +1,34 @@
 package com.coinbase.exchange.api.entity;
 
-/**
- * Created by irufus on 2/25/15.
- */
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public abstract class NewOrderSingle {
 
-    private String client_oid; //optional
-    private String type; //default is limit, other types are market and stop
+    @JsonProperty("client_oid")
+    private String clientOid; //optional
+    private String type; //limit, market or stop
     private String side;
-    private String product_id;
+
+    @JsonProperty("product_id")
+    private String productId;
 
     //SELF-TRADE PREVENTION
     //optional: values are dc, co , cn , cb
     private String stp;
-    private String funds;
+
+    public NewOrderSingle() {
+    }
+
+    public NewOrderSingle(String clientOid, String type, String side, String productId, String stp) {
+        this.clientOid = clientOid;
+        this.type = type;
+        this.side = side;
+        this.productId = productId;
+        this.stp = stp;
+    }
 
     public String getStp() {
         return stp;
@@ -23,12 +38,12 @@ public abstract class NewOrderSingle {
         this.stp = stp;
     }
 
-    public String getProduct_id() {
-        return product_id;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setProduct_id(String product_id) {
-        this.product_id = product_id;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
     public String getSide() {
@@ -39,20 +54,12 @@ public abstract class NewOrderSingle {
         this.side = side;
     }
 
-    public String getClient_oid() {
-        return client_oid;
+    public String getClientOid() {
+        return clientOid;
     }
 
-    public void setClient_oid(String client_oid) {
-        this.client_oid = client_oid;
-    }
-
-    public String getFunds() {
-        return funds;
-    }
-
-    public void setFunds(String funds) {
-        this.funds = funds;
+    public void setClientOid(String clientOid) {
+        this.clientOid = clientOid;
     }
 
     public String getType() {

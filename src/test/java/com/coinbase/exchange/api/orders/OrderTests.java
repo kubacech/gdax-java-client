@@ -15,7 +15,6 @@ import org.junit.Test;
 import org.junit.experimental.categories.Category;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -146,15 +145,15 @@ public class OrderTests extends BaseTest {
     @Test
     public void placeLimitOrder() {
         NewLimitOrderSingle req = new NewLimitOrderSingle(
+                UUID.randomUUID().toString(),
+                "sell",
+                "BTC-EUR",
+                null,
                 new BigDecimal("0.01"),
                 new BigDecimal("25000"),
                 true,
-                UUID.randomUUID().toString(),
-                "limit",
-                "SELL",
-                "BTC-EUR",
-                null,
-                null
+                "GTT",
+                "min"
         );
         Order o = orderService.createOrder(req).block();
         assertNotNull(o);
@@ -162,7 +161,7 @@ public class OrderTests extends BaseTest {
 
     private NewMarketOrderSingle createNewMarketOrder(String product, String action, BigDecimal size){
         NewMarketOrderSingle marketOrder = new NewMarketOrderSingle();
-        marketOrder.setProduct_id(product);
+        marketOrder.setProductId(product);
         marketOrder.setSide(action);
         marketOrder.setSize(size);
         return marketOrder;
@@ -174,7 +173,7 @@ public class OrderTests extends BaseTest {
 
     private NewLimitOrderSingle getNewLimitOrderSingle(String productId, BigDecimal price, BigDecimal size) {
         NewLimitOrderSingle limitOrder = new NewLimitOrderSingle();
-        limitOrder.setProduct_id(productId);
+        limitOrder.setProductId(productId);
         if (productId.contains("-BTC")) {
             limitOrder.setSide("sell");
         } else {

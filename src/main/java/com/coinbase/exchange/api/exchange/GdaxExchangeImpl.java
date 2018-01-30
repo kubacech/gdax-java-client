@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.ClientResponse;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -45,7 +46,9 @@ public class GdaxExchangeImpl implements GdaxExchange {
         try {
             WebClient.RequestHeadersSpec w = webClient.get().uri(resourcePath);
             fillSecurityHeaders(resourcePath, "GET", "", w);
-            return w.exchange().flatMap(clientResponse -> ((ClientResponse)clientResponse).bodyToMono(responseType));
+            return w.retrieve()
+                    .onStatus(code -> code.isError(), this::logErrorResponse)
+                    .bodyToMono(responseType);
         } catch (HttpClientErrorException ex) {
             LOG.error("GET request Failed for '" + resourcePath + "': " + ex.getResponseBodyAsString());
         }
@@ -84,7 +87,9 @@ public class GdaxExchangeImpl implements GdaxExchange {
         try {
             WebClient.RequestHeadersSpec w = webClient.delete().uri(resourcePath);
             fillSecurityHeaders(resourcePath, "DELETE", "", w);
-            return w.exchange().flatMap(clientResponse -> ((ClientResponse)clientResponse).bodyToMono(responseType));
+            return w.retrieve()
+                    .onStatus(code -> code.isError(), this::logErrorResponse)
+                    .bodyToMono(responseType);
         } catch (HttpClientErrorException ex) {
             LOG.error("DELETE request Failed for '" + resourcePath + "': " + ex.getResponseBodyAsString());
         }
@@ -95,9 +100,11 @@ public class GdaxExchangeImpl implements GdaxExchange {
     public <T, R> Mono<T> post(String resourcePath,  ParameterizedTypeReference<T> responseType, R jsonObj) {
         try {
             String jsonBody = objectMapper.writeValueAsString(jsonObj);
-            WebClient.RequestHeadersSpec w = webClient.post().uri(resourcePath);
+            WebClient.RequestHeadersSpec w = webClient.post().uri(resourcePath).body(BodyInserters.fromObject(jsonBody));
             fillSecurityHeaders(resourcePath, "POST", jsonBody, w);
-            return w.exchange().flatMap(clientResponse -> ((ClientResponse)clientResponse).bodyToMono(responseType));
+            return w.retrieve()
+                    .onStatus(code -> code.isError(), this::logErrorResponse)
+                    .bodyToMono(responseType);
         } catch (HttpClientErrorException ex) {
             LOG.error("POST request Failed for '" + resourcePath + "': " + ex.getResponseBodyAsString());
         } catch (Exception e) {
@@ -111,7 +118,7 @@ public class GdaxExchangeImpl implements GdaxExchange {
         return baseUrl;
     }
 
-    public void fillSecurityHeaders(String endpoint, String method, String jsonBody, WebClient.RequestHeadersSpec client) {
+    protected void fillSecurityHeaders(String endpoint, String method, String jsonBody, WebClient.RequestHeadersSpec client) {
         String timestamp = Instant.now().getEpochSecond() + "";
         String resource = endpoint.replace(getBaseUrl(), "");
 
@@ -123,5 +130,13 @@ public class GdaxExchangeImpl implements GdaxExchange {
             .header("CB-ACCESS-TIMESTAMP", timestamp)
             .header("CB-ACCESS-PASSPHRASE", passphrase);
     }
+
+    private Mono<Exception> logErrorResponse(ClientResponse response) {
+        LOG.error("Error calling GDAX service. Response: " + response.statusCode().value() + " " + response.statusCode().getReasonPhrase());
+        //TODO better error
+        return Mono.just(new RuntimeException("GDAX Response error"));
+    }
+
+
 
 }
