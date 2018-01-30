@@ -102,10 +102,17 @@ public class OrderTests extends BaseTest {
     }
 
     @Test
-    public void getFills() {
+    public void getAllFills() {
         List<Fill> fills = orderService.getAllFills().block();
         assertTrue(fills.size() >= 0);
     }
+
+    @Test
+    public void getFills() {
+        List<Fill> fills = orderService.getFills(1L).block();
+        assertTrue(fills.size() >= 0);
+    }
+
 
     @Test
     public void getOrder() {

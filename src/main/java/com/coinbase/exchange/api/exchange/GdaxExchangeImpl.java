@@ -132,9 +132,11 @@ public class GdaxExchangeImpl implements GdaxExchange {
     }
 
     private Mono<Exception> logErrorResponse(ClientResponse response) {
-        LOG.error("Error calling GDAX service. Response: " + response.statusCode().value() + " " + response.statusCode().getReasonPhrase());
-        //TODO better error
-        return Mono.just(new RuntimeException("GDAX Response error"));
+        return response.bodyToMono(GdaxErrorResponse.class).flatMap(ger -> {
+            String errorMessage = "HTTP Status " + response.statusCode().value() + " , message: " + ger.getMessage();
+            LOG.error("Error calling GDAX service. Response: " + errorMessage);
+            return Mono.just(new GdaxException(response.statusCode().value(), ger.getMessage()));
+        });
     }
 
 

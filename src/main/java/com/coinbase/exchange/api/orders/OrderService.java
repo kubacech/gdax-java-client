@@ -61,6 +61,14 @@ public class OrderService {
         String fillsEndpoint = "/fills";
         return exchange.getAsList(fillsEndpoint, new ParameterizedTypeReference<Fill[]>(){});
     }
+
+    public Mono<List<Fill>> getFills(Long tradeIdFrom) {
+        String fillsEndpoint = "/fills";
+        if (tradeIdFrom != null && tradeIdFrom > 0) {
+            fillsEndpoint += "?after=" + tradeIdFrom;
+        }
+        return exchange.getAsList(fillsEndpoint, new ParameterizedTypeReference<Fill[]>(){});
+    }
 }
 
 
