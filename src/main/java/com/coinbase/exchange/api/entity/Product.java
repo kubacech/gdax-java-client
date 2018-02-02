@@ -1,64 +1,74 @@
 package com.coinbase.exchange.api.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.math.BigDecimal;
 
-/**
- * Created by irufus on 2/25/15.
- */
 public class Product {
 
-    private String id;
-    private String base_currency;
-    private String quote_currency;
-    private Double base_min_size;
-    private Double base_max_size;
-    private Double quote_increment;
+    @JsonProperty("id")
+    private String productId;
 
-    public Double getQuote_increment() {
-        return quote_increment;
+    @JsonProperty("base_currency")
+    private String baseCurrency;
+
+    @JsonProperty("quote_currency")
+    private String quoteCurrency;
+
+    @JsonProperty("base_min_size")
+    private BigDecimal baseMinSize;
+
+    @JsonProperty("base_max_size")
+    private BigDecimal baseMaxSize;
+
+    @JsonProperty("quote_increment")
+    private BigDecimal quoteIncrement;
+
+    public String getProductId() {
+        return productId;
     }
 
-    public void setQuote_increment(Double quote_increment) {
-        this.quote_increment = quote_increment;
+    public void setProductId(String productId) {
+        this.productId = productId;
     }
 
-    public Double getBase_max_size() {
-        return base_max_size;
+    public String getBaseCurrency() {
+        return baseCurrency;
     }
 
-    public void setBase_max_size(Double base_max_size) {
-        this.base_max_size = base_max_size;
+    public void setBaseCurrency(String baseCurrency) {
+        this.baseCurrency = baseCurrency;
     }
 
-    public Double getBase_min_size() {
-        return base_min_size;
+    public String getQuoteCurrency() {
+        return quoteCurrency;
     }
 
-    public void setBase_min_size(Double base_min_size) {
-        this.base_min_size = base_min_size;
+    public void setQuoteCurrency(String quoteCurrency) {
+        this.quoteCurrency = quoteCurrency;
     }
 
-    public String getQuote_currency() {
-        return quote_currency;
+    public BigDecimal getBaseMinSize() {
+        return baseMinSize;
     }
 
-    public void setQuote_currency(String quote_currency) {
-        this.quote_currency = quote_currency;
+    public void setBaseMinSize(BigDecimal baseMinSize) {
+        this.baseMinSize = baseMinSize;
     }
 
-    public String getBase_currency() {
-        return base_currency;
+    public BigDecimal getBaseMaxSize() {
+        return baseMaxSize;
     }
 
-    public void setBase_currency(String base_currency) {
-        this.base_currency = base_currency;
+    public void setBaseMaxSize(BigDecimal baseMaxSize) {
+        this.baseMaxSize = baseMaxSize;
     }
 
-    public String getId() {
-        return id;
+    public BigDecimal getQuoteIncrement() {
+        return quoteIncrement;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setQuoteIncrement(BigDecimal quoteIncrement) {
+        this.quoteIncrement = quoteIncrement;
     }
 }
