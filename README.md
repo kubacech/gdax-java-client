@@ -65,14 +65,15 @@ The Api for this application/library is as follows:
 - [x] Get Accounts
 - [x] Get Account History
 - [ ] Get Holds
-- [ ] Place a new Order (limit order)
-- [ ] Get an Order
+- [x] Place a new Order (limit order)
+- [x] Get an Order
 - [ ] Cancel an Order
-- [ ] List all open Orders
+- [x] List all open Orders
 - [x] Get Market Data
 - [ ] List fills
 - [x] List Products
 - [ ] HTTP Error code support
+- [x] List of Currencies
 - [ ] List of Currencies - from Accounts
 - [ ] Withdrawals - from coinbase accounts / payment methods / crypto account address
 - [ ] Deposits - from coinbase accounts / payment methods

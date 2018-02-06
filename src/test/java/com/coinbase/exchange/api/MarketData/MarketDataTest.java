@@ -1,14 +1,17 @@
 package com.coinbase.exchange.api.MarketData;
 
 import com.coinbase.exchange.api.BaseTest;
+import com.coinbase.exchange.api.marketdata.Currency;
 import com.coinbase.exchange.api.marketdata.MarketData;
 import com.coinbase.exchange.api.marketdata.MarketDataService;
 import com.coinbase.exchange.api.test.IntegrationTest;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.experimental.categories.Category;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.List;
+
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 @Category(IntegrationTest.class)
@@ -44,5 +47,13 @@ public class MarketDataTest extends BaseTest {
         MarketData marketData = marketDataService.getMarketDataOrderBook("BTC-GBP", "3").block();
         System.out.println(marketData);
         assertTrue(marketData.getSequence() > 0);
+    }
+
+    @Test
+    public void currencies() {
+        List<Currency> currencies = marketDataService.currencies().block();
+        assertNotNull(currencies);
+        assertTrue(currencies.size()>0);
+
     }
 }

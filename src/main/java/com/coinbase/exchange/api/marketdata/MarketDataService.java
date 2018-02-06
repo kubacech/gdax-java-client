@@ -30,4 +30,9 @@ public class MarketDataService {
         String tradesEndpoint = PRODUCT_ENDPOINT + "/" + productId + "/trades";
         return exchange.getAsList(tradesEndpoint, new ParameterizedTypeReference<Trade[]>(){});
     }
+
+    public Mono<List<Currency>> currencies() {
+        String currenciesEndpoint = "/currencies";
+        return exchange.getAsList(currenciesEndpoint, new ParameterizedTypeReference<Currency[]>(){});
+    }
 }
