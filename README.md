@@ -4,7 +4,7 @@ If you want to use this, then please fork it and make it work for you as desired
 # gdax-java-client
 
 Java based wrapper for the [GDAX API](https://docs.gdax.com/#introduction). Originally forked from [irufus/gdax-java](https://github.com/irufus/gdax-java). 
-This project aims to simple java library that is wrapping GDAX API without any Spring or UI
+This project aims to simple java library that is wrapping GDAX API. Using new Spring Webclient nonblocking APIs
     
 # Usage
 
@@ -22,7 +22,7 @@ Or setup environment properties **GDAX_KEY**, **GDAX_SECRET**, **GDAX_PASS** and
 with created client object you can now access all services as this:
 
 ```java
-gdax.orderService().createOrder(neworder);
+gdax.orderService().createOrder(newOrder);
 ```
 ##### List of services:
 -  AccountService
@@ -70,7 +70,7 @@ The Api for this application/library is as follows:
 - [ ] Cancel an Order
 - [x] List all open Orders
 - [x] Get Market Data
-- [ ] List fills
+- [x] List fills
 - [x] List Products
 - [ ] HTTP Error code support
 - [x] List of Currencies
