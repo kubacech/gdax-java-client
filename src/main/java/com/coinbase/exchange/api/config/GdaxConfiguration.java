@@ -44,14 +44,6 @@ public class GdaxConfiguration {
         return websocketUrl;
     }
 
-    public URI websocketUri() {
-        try {
-            return new URI(websocketUrl);
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     public String key() {
         return key;
     }

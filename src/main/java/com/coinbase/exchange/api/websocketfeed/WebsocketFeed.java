@@ -8,21 +8,28 @@ import com.coinbase.exchange.api.websocketfeed.message.Subscribe;
 import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.handshake.ServerHandshake;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.web.reactive.socket.WebSocketSession;
+import org.springframework.web.reactive.socket.client.ReactorNettyWebSocketClient;
+import org.springframework.web.reactive.socket.client.WebSocketClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.FluxSink;
+import reactor.core.publisher.Mono;
 
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.Map;
 
-//TODO test
-public class WebsocketFeed extends WebSocketClient {
+public class WebsocketFeed {
 
     private static Logger LOG = LoggerFactory.getLogger(WebsocketFeed.class);
+
+    private WebSocketClient client;
+    private WebSocketSession session;
 
     private Signature signature;
     private String websocketUrl;
@@ -34,7 +41,7 @@ public class WebsocketFeed extends WebSocketClient {
     private FluxSink<Message> observable;
 
     public WebsocketFeed(GdaxConfiguration config) {
-        super(config.websocketUri());
+        client = new ReactorNettyWebSocketClient();
 
         this.key = config.key();
         this.passphrase = config.passphrase();
@@ -44,14 +51,32 @@ public class WebsocketFeed extends WebSocketClient {
     }
 
     public Flux<Message> subscribe(Subscribe subscribe) {
-        if (!isOpen()) {
-            this.connect();
+        connect();
+        session.send(Mono.just(session.textMessage(signObject(subscribe))))
+                .doOnError(e -> LOG.error("error while sending subscription message", e))
+                .subscribe();
+
+        return session.receive()
+                .map(message -> convertMessage(message.getPayloadAsText()))
+                .doOnError(throwable -> LOG.error("error on receiving messages", throwable));
+    }
+
+    private void connect() {
+        client.execute(uri(websocketUrl), session -> {
+            LOG.info("websocket connected {}", websocketUrl);
+            this.session = session;
+            return Mono.empty();
+        }).doOnError(e -> {
+            LOG.error("Error while connecting to websocket url {}", websocketUrl, e);
+        }).block();
+    }
+
+    private URI uri(String websocketUrl) {
+        try {
+            return new URI(websocketUrl);
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
         }
-
-        send(signObject(subscribe));
-
-        //TODO
-        return null;
     }
 
     protected String signObject(Subscribe subscribeReq) {
@@ -86,13 +111,12 @@ public class WebsocketFeed extends WebSocketClient {
         }
     }
 
-    @Override
-    public void onMessage(String message) {
+    protected Message convertMessage(String message) {
         Map<String, String > map = getObject(message, new TypeReference< Map<String, String>>(){});
         String type = map.get("type");
         if (type == null) {
             LOG.error("\"type\" is expected in every gdax message. skipping... : {}", message);
-            return;
+            return null;
         }
         Message m = null;
         if (type.equals("heartbeat")) {
@@ -121,21 +145,7 @@ public class WebsocketFeed extends WebSocketClient {
         if (m != null) {
             observable.next(m);
         }
-    }
-
-    @Override
-    public void onOpen(ServerHandshake serverHandshake) {
-        LOG.info("Websocket connection opened.");
-    }
-
-    @Override
-    public void onClose(int code, String reason, boolean byRemote) {
-        LOG.warn("websocket closed. CODE={}, REASON={}, BY_REMOTE={}", code, reason, byRemote);
-    }
-
-    @Override
-    public void onError(Exception e) {
-        LOG.error("Error in websocket feed", e);
+        return m;
     }
 }
 

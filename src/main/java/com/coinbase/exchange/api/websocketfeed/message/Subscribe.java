@@ -1,14 +1,10 @@
 package com.coinbase.exchange.api.websocketfeed.message;
 
-/**
- * Created by robevansuk on 12/03/2017.
- */
+// Used for signing the subscribe message to the Websocket feed
 public class Subscribe extends Message {
 
     String[] product_ids;
     String[] channels;
-
-    // Used for signing the subscribe message to the Websocket feed
 
     public Subscribe() { }
 
