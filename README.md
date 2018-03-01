@@ -36,25 +36,6 @@ gdax.orderService().createOrder(newOrder);
 -  UserAccountService
 -  WithdrawalsService
 
-# API
-
-The Api for this application/library is as follows:
-(Note: this section is likely to change but is provided on the basis it will work well for example usage)
-
-- `AccountService.getAccounts()` - returns a List Accounts
-- `AccountService.getAccountHistory(String accountId)` - returns the history for a given account as a List
-- `AccountService.getHolds(String accountId)` - returns a List of all held funds for a given account.
-- `DepositService.depositViaPaymentMethod(BigDecimal amount, String currency, String paymentMethodId)` - makes a deposit from a stored payment method into your GDAX account
-- `DepositService.coinbaseDeposit(BigDecimal amount, String currency, String coinbaseAccountId)` - makes a deposit from a coinbase account into your GDAX account
-- `MarketDataService.getMarketDataOrderBook(String productId, String level)` - a call to ProductService.getProducts() will return the order book for a given product. You can then use the WebsocketFeed api to keep your orderbook up to date. This is implemented in this codebase. Level can be 1 (top bid/ask only), 2 (top 50 bids/asks only), 3 (entire order book - takes a while to pull the data.)
-- `OrderService.getOpenOrders(String accountId)` - returns a List of Orders for any outstanding orders
-- `OrderService.cancelOrder(String orderId)` - cancels a given order
-- `OrderService.createOrder(NewOrderSingle aSingleOrder)` - construct an order and send it to this method to place an order for a given product on the exchange.
-- `PaymentService.getCoinbaseAccounts()` - gets the coinbase accounts for the logged in user
-- `PaymentService.getPaymentTypes()` - gets the payment types available for the logged in user
-- `ProductService.getProducts()` - returns a List of Products available from the exchange - BTC-USD, BTC-EUR, BTC-GBP, etc.
-- `ReportService.createReport(String product, String startDate, String endDate)` - not certain about this one as I've not tried it but presumably generates a report of a given product's trade history for the dates supplied
-
 
 # WebsocketFeed API 
 //TODO rewritten completely . not tested at all at this moment
@@ -74,7 +55,6 @@ The Api for this application/library is as follows:
 - [x] List Products
 - [ ] HTTP Error code support
 - [x] List of Currencies
-- [ ] List of Currencies - from Accounts
 - [ ] Withdrawals - from coinbase accounts / payment methods / crypto account address
 - [ ] Deposits - from coinbase accounts / payment methods
 - [ ] Transfers - from coinbase accounts
